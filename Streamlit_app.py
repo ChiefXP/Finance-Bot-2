@@ -44,7 +44,7 @@ if user_input:
                 messages=[
                     {
                         "role": "system",
-                        "content": "You are a helpful finance chatbot. Answer questions related to personal finance, banking, and budgeting."
+                        "content": "You are a helpful finance chatbot. Answer questions related to personal finance, banking, and budgeting. do not answer any other questions about anything else, you are a financed focused bot"
                     },
                     {
                         "role": "user",
