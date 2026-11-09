@@ -53,6 +53,7 @@ if user_input:
                 ]
             )
             response = completion.choices[0].message.content
+        except: response = f"An error occurred: {e}"
 
     #displays the response, thank you documentation.
     st.session_state.messages.append({"role": "assistant", "content": response})
