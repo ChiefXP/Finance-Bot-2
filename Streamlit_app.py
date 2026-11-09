@@ -40,7 +40,7 @@ if user_input:
     else:
         try:
             completion = client.chat.completions.create(
-                model="llama-3.1-8b-instant",
+                model="openai/gpt-oss-20b",
                 messages=[
                     {
                         "role": "system",
@@ -53,8 +53,6 @@ if user_input:
                 ]
             )
             response = completion.choices[0].message.content
-        except Exception as e:
-            response = f"An error occurred: {e}"
 
     #displays the response, thank you documentation.
     st.session_state.messages.append({"role": "assistant", "content": response})
