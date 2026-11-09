@@ -5,6 +5,7 @@ client = Groq(api_key=st.secrets["GROQ_API_KEY"])
 
 st.title("ishowfinance")
 
+#dictionary of predetermined responses, I tried to think of ones that would be commonly asked, as well as throwing in some hard coded easter eggs.
 responses = {   
     "hello": "Hello! How can I assist you?",
     "hi": "Hi there!",
@@ -13,12 +14,14 @@ responses = {
     "how are you?": "I'm here to help you with your finance questions!",
     "what is a budget?": "A budget is a fun plan for your income and expenses.",
     "can you show me finance?": "Always."
+    "what else can you do?": "I am programed to answer questions exclusievly about finance.",
 }
 
+#loops the program, so mulitpule questions dont have to restart it
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-for message in st.session_state.messages:
+else message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
