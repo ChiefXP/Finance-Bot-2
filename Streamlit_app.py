@@ -3,7 +3,7 @@ from groq import Groq
 
 client = Groq(api_key=st.secrets["GROQ_API_KEY"])
 
-st.title("finance chatbot")
+st.title("ishowfinance")
 
 responses = {
     "hello": "Hello! How can I assist you?",
