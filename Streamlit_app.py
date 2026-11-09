@@ -1,8 +1,9 @@
+import streamlit as st
 from groq import Groq
-from getpass import getpass
-import os
 
-client = Groq(api_key=getpass("Groq API key: "))
+client = Groq(api_key=st.secrets["GROQ_API_KEY"])
+
+st.title("finance chatbot")
 
 responses = {
     "hello": "Hello! How can I assist you?",
@@ -13,42 +14,43 @@ responses = {
     "what is a budget?": "A budget is a plan for your income and expenses.",
 }
 
-def chatbot_response(user_input):
+if "messages" not in st.session_state:
+    st.session_state.messages = []
+
+for message in st.session_state.messages:
+    with st.chat_message(message["role"]):
+        st.markdown(message["content"])
+
+user_input = st.chat_input("Type your message here...")
+
+if user_input:
+    st.session_state.messages.append({"role": "user", "content": user_input})
+    with st.chat_message("user"):
+        st.markdown(user_input)
+
     cleaned_input = user_input.lower().strip()
     
-    # This Checks dictionary first, making sure there is a predisposed response it can give
     if cleaned_input in responses:
-        return responses[cleaned_input]
-    
-    # Fallback to Groq API, if not in dictionary or for a more refined response.streamlit run app.py
-    try:
-        completion = client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
-            messages=[
-                {
-                    "role": "system",
-                    "content": "You are a helpful finance chatbot. Answer questions related to personal finance, banking, and budgeting."
-                },
-                {
-                    "role": "user",
-                    "content": user_input
-                }
-            ]
-        )
-        return completion.choices[0].message.content
-    except Exception as e:
-        return f"An error occurred: {e}"
+        response = responses[cleaned_input]
+    else:
+        try:
+            completion = client.chat.completions.create(
+                model="llama-3.3-70b-versatile",
+                messages=[
+                    {
+                        "role": "system",
+                        "content": "You are a helpful finance chatbot. Answer questions related to personal finance, banking, and budgeting."
+                    },
+                    {
+                        "role": "user",
+                        "content": user_input
+                    }
+                ]
+            )
+            response = completion.choices[0].message.content
+        except Exception as e:
+            response = f"An error occurred: {e}"
 
-name = input("Please enter your name: ")
-print(f"ChatBot: Hello {name}! Ask me anything.")
-print("Type 'exit' to end the conversation.")
-
-while True:
-    user_input = input(f"{name}: ")
-
-    if user_input.lower().strip() == "exit":
-        print("ChatBot: Goodbye! Have a great day!")
-        break
-
-    response = chatbot_response(user_input)
-    print(f"ChatBot: {response}")
+    st.session_state.messages.append({"role": "assistant", "content": response})
+    with st.chat_message("assistant"):
+        st.markdown(response)
