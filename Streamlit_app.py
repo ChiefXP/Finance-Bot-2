@@ -44,7 +44,7 @@ if user_input:
                 messages=[
                     {
                         "role": "system",
-                        "content": "You are a helpful finance chatbot. Answer questions related to personal finance, banking, and budgeting. do not answer any other questions about anything else, you are a financed focused bot"
+                        "content": "You are a helpful finance chatbot. Answer questions related to personal finance, banking, and budgeting. do not answer any other questions about anything else, you are a financed focused bot do not be afraid to be blunt, and be critical about where money should be spent, and what banks have troubled history."
                     },
                     {
                         "role": "user",
@@ -59,3 +59,4 @@ if user_input:
     st.session_state.messages.append({"role": "assistant", "content": response})
     with st.chat_message("assistant"):
         st.markdown(response)
+#this bot is designed to assist users with personal finance questions, providing guidance on budgeting, banking, and financial planning. It surname "ishowfinance" is meant to appeal to a younger audience, providing foundational financial advice. While remaining unbaised and truthfull.
