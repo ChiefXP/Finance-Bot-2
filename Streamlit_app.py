@@ -30,16 +30,19 @@ user_input  =   st.chat_input("Ask ishowfinance a question here......")
 
     cleaned_input = user_input.lower().strip()
     
+    # Removed .lower(), so it only strips extra whitespace now
+    cleaned_input = user_input.strip()
+    
     if cleaned_input in responses:
-        response = responses[cleaned_input]  
+        response = responses[cleaned_input]
     else:
         try:
             completion = client.chat.completions.create(
-                model="openai/gpt-oss-20b",
-                messages   =   [
+                model="llama-3.1-8b-instant",
+                messages=[
                     {
                         "role": "system",
-                        "content": "You are a helpful finance chatbot. Answer questions related to personal finance, banking, and budgeting. If asked about subjects unrelated to the main topic, revert it back to finance or ask for another prompt"
+                        "content": "You are a helpful finance chatbot. Answer questions related to personal finance, banking, and budgeting."
                     },
                     {
                         "role": "user",
@@ -47,7 +50,7 @@ user_input  =   st.chat_input("Ask ishowfinance a question here......")
                     }
                 ]
             )
-            response = completion.choices[0].message.content   
+            response = completion.choices[0].message.content
         except Exception as e:
             response = f"An error occurred: {e}"
 
